@@ -1,12 +1,10 @@
 # Coding kata baseline: Java RPG
 
 This baseline is a copy of the CSC150 `FinalCSCProgram` console RPG from
-`Y1/Q2/CSC150/FinalCSCProgram/FinalCSCProgram`. All 38 Java source files are
-copied unchanged; the previous C# practice projects have been removed.
-The original project is left untouched.
+`CSC150`.
 
 The game includes turn-based combat, enemy statuses, equipment, inventory,
-trading, and story progression. No design-pattern refactor has been applied.
+trading, and story progression.
 
 ## Build and run
 
@@ -32,8 +30,6 @@ settings are excluded from version control. There is no automated test suite.
 ## Existing limitations and authorship
 
 `controllers/MusicController.java` explicitly credits ChatGPT and online help.
-That attribution is preserved; use your own gameplay code as the refactoring
-subject for the assignment's authorship requirement.
 
 Music playback in `StoryController.java` references an absolute Windows path.
 The original WAV file is not included in this source baseline. Missing audio
