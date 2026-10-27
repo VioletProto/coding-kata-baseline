@@ -1,8 +1,8 @@
 # Coding kata baseline: Java RPG
 
 This baseline is a copy of the CSC150 `FinalCSCProgram` console RPG from
-`Y1/Q2/CSC150/FinalCSCProgram/FinalCSCProgram`. All 38 Java source files are
-copied unchanged; the previous C# practice projects have been removed.
+`Y1/Q2/CSC150/FinalCSCProgram/FinalCSCProgram`. The 38 Java source files form the baseline; the previous C# practice projects
+have been removed. Music playback uses a repository-relative local asset path.
 The original project is left untouched.
 
 The game includes turn-based combat, enemy statuses, equipment, inventory,
@@ -35,7 +35,9 @@ settings are excluded from version control. There is no automated test suite.
 That attribution is preserved; use your own gameplay code as the refactoring
 subject for the assignment's authorship requirement.
 
-Music playback in `StoryController.java` references an absolute Windows path.
-The original WAV file is not included in this source baseline. Missing audio
-prints an error; the music controller skips playback when no clip is loaded.
-Gameplay behavior and existing bugs have been preserved for future katas.
+Music playback uses `assets/battle-music.wav`, relative to the repository root.
+Run the game with the repository root as the working directory (including in
+your IDE). WAV files are ignored by Git and must be supplied locally; they are
+not uploaded to GitHub. Missing audio prints an error; the music controller
+skips playback when no clip is loaded. Other gameplay behavior and existing
+bugs have been preserved for future katas.

@@ -9,3 +9,7 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Local audio assets (do not upload)
+*.wav
+*.WAV
