@@ -31,7 +31,9 @@ settings are excluded from version control. There is no automated test suite.
 
 `controllers/MusicController.java` explicitly credits ChatGPT and online help.
 
-Music playback in `StoryController.java` references an absolute Windows path.
-The original WAV file is not included in this source baseline. Missing audio
-prints an error; the music controller skips playback when no clip is loaded.
-Gameplay behavior and existing bugs have been preserved for future katas.
+Music playback uses `assets/battle-music.wav`, relative to the repository root.
+Run the game with the repository root as the working directory (including in
+your IDE). WAV files are ignored by Git and must be supplied locally; they are
+not uploaded to GitHub. Missing audio prints an error; the music controller
+skips playback when no clip is loaded. Other gameplay behavior and existing
+bugs have been preserved for future katas.

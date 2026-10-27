@@ -217,7 +217,7 @@ public class StoryController {
 
     public void startBattleMusic() {
         if (musicPlayer == null) {
-            musicPlayer = new MusicController("C:/Neumont/Q2/CSC150/1-06 Vordt Of The Boreal Valley.wav");
+            musicPlayer = new MusicController("assets/battle-music.wav");
         }
         musicPlayer.play();
     }
