@@ -1,6 +1,7 @@
 package edu.neumont.csc150.models.battles;
 
 import edu.neumont.csc150.controllers.WeaponForge;
+import edu.neumont.csc150.factories.*;
 import edu.neumont.csc150.models.Characers.*;
 import edu.neumont.csc150.models.items.armors.Shirt;
 import edu.neumont.csc150.models.items.enums.Quality;
@@ -9,19 +10,25 @@ public class BattleMap {
     private Battle[][] battleMap;
 
     public BattleMap() {
+        EnemyFactory enemies = new EnemyFactory();
+        EquipmentFactory low = new LowEquipmentFactory();
+        EquipmentFactory medium = new MediumEquipmentFactory();
+        EquipmentFactory high = new HighEquipmentFactory();
+
+
         battleMap = new Battle[][]{
                 {new Battle(new Thug(new Shirt(), WeaponForge.createRandomWeapon(Quality.LOW))),
-                        new Battle(new Thug(WeaponForge.createRandomArmor(Quality.LOW), WeaponForge.createRandomWeapon(Quality.LOW))),
-                        new Battle(new Bandit(WeaponForge.createRandomArmor(Quality.MEDIUM), WeaponForge.createRandomWeapon(Quality.MEDIUM))),
-                        new Battle(new Bandit(WeaponForge.createRandomArmor(Quality.MEDIUM), WeaponForge.createRandomWeapon(Quality.MEDIUM)))},
+                        new Battle(enemies.createThug(low)),
+                        new Battle(enemies.createBandit(medium)),
+                        new Battle(enemies.createBandit(medium))},
 
                 {new Battle(new Bandit(WeaponForge.createRandomArmor(Quality.MEDIUM), WeaponForge.createRandomWeapon(Quality.HIGH))),
                         new Battle(new CorruptGuard(WeaponForge.createRandomArmor(Quality.HIGH), WeaponForge.createRandomWeapon(Quality.MEDIUM))),
-                        new Battle(new Mercenary(WeaponForge.createRandomArmor(Quality.HIGH), WeaponForge.createRandomWeapon(Quality.HIGH))),
+                        new Battle(enemies.createMercenary(high)),
                         new Battle(new CorruptGuard(WeaponForge.createRandomArmor(Quality.MEDIUM), WeaponForge.createRandomWeapon(Quality.HIGH)))},
 
-                {new Battle(new Assassin(WeaponForge.createRandomArmor(Quality.HIGH), WeaponForge.createRandomWeapon(Quality.HIGH))),
-                        new Battle(new Mercenary(WeaponForge.createRandomArmor(Quality.HIGH), WeaponForge.createRandomWeapon(Quality.HIGH))),
+                {new Battle(enemies.createAssassin(high)),
+                        new Battle(enemies.createMercenary(high)),
                         new Battle(new CorruptGuard(WeaponForge.createRandomArmor(Quality.LEGENDARY), WeaponForge.createRandomWeapon(Quality.HIGH))),
                         new Battle(new Assassin(WeaponForge.createRandomArmor(Quality.HIGH), WeaponForge.createRandomWeapon(Quality.LEGENDARY)))},
 
