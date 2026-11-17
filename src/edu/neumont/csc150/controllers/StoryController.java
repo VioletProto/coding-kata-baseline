@@ -5,11 +5,10 @@ import edu.neumont.csc150.models.Characers.Player;
 import edu.neumont.csc150.models.Trader;
 import edu.neumont.csc150.models.battles.Battle;
 import edu.neumont.csc150.models.battles.BattleMap;
-import edu.neumont.csc150.models.flavorText.AttackResult;
+import edu.neumont.csc150.models.battles.BattleOutcome;
 import edu.neumont.csc150.models.items.Item;
 import edu.neumont.csc150.models.items.armors.Armor;
 import edu.neumont.csc150.models.items.enums.Quality;
-import edu.neumont.csc150.models.items.enums.Status;
 import edu.neumont.csc150.models.items.potions.Potion;
 import edu.neumont.csc150.models.items.weapons.Weapon;
 import edu.neumont.csc150.views.UI;
@@ -25,11 +24,14 @@ public class StoryController {
     private static Trader trader;
     private BattleController battleController;
     private BattleMap battleMap;
+    private BattleFacade battleFacade;
     private int currentRow = 0;
     private int currentCol = 0;
 
     public void run()  {
         battleController = new BattleController();
+        musicPlayer = new MusicController("assets/battle-music.wav");
+        battleFacade = new BattleFacade(battleController,ui, musicPlayer);
         battleMap = new BattleMap();
 //        ui.startingText();
         playerCharacter = new Player(ui.getString("Enter a name"));
@@ -62,41 +64,21 @@ public class StoryController {
     }
 
     public void startBattle(Enemy enemy) {
-        ui.printNormal("A battle begins against " + enemy.getName() + "(Health: " + enemy.getHealth() + ")");
-        battleController.setActiveBattle(true);
+        BattleOutcome outcome = battleFacade.fight(playerCharacter, enemy);
 
-        startBattleMusic();
+        if (outcome == BattleOutcome.VICTORY) {
+            battleIteration++;
 
-        while (enemy.isAlive() && playerCharacter.isAlive()) {
-            battleController.playerTurn(playerCharacter, enemy);
-            if (!enemy.isAlive()) {
-                ui.printNormal(enemy.getName() + " has been defeated!");
-                battleIteration++;
-                if(battleIteration != 0 && battleIteration % 4 == 0) {
-                    traderIteration++;
-                    visitTrader();
-                }
-            } else if (!battleController.getActiveBattle()) {
-                return;
-            } else {
-                AttackResult enemyAttack = enemy.attack(playerCharacter);
-                StringBuilder sb = new StringBuilder();
-                if (enemy.getStatus() == Status.BEGGING) {
-                    ui.printNormal("Please let me go");
-                } else if (enemyAttack.getAttackHit()) {
-                    sb.append(enemy.getName());
-                    sb.append(" Attacks you for ");
-                    sb.append(enemyAttack.getAmount());
-                    ui.printNormal(sb.toString());
-                } else {
-                    sb.append(enemy.getName());
-                    sb.append(" misses their attack");
-                    ui.printNormal(sb.toString());
-                }
+            if (battleIteration % 4 == 0) {
+                traderIteration++;
+                visitTrader();
             }
         }
-        endBattleMusic();
-        inBetweenMenu();
+
+        if (outcome == BattleOutcome.VICTORY || outcome == BattleOutcome.FLED) {
+            inBetweenMenu();
+        }
+
     }
 
     public void inBetweenMenu(){
@@ -204,15 +186,6 @@ public class StoryController {
                 break;
             }
         } while (true);
-    }
-
-    public void music() {
-        boolean start = true;
-        do {
-            startBattleMusic();
-            start = ui.getUserBoolean("Stop music?");
-        } while (start);
-        endBattleMusic();
     }
 
     public void startBattleMusic() {
