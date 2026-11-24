@@ -24,14 +24,17 @@ public class StoryController {
     private static Trader trader;
     private BattleController battleController;
     private BattleMap battleMap;
-    private BattleFacade battleFacade;
+    private BattleEncounter battleEncounter;
     private int currentRow = 0;
     private int currentCol = 0;
 
     public void run()  {
         battleController = new BattleController();
         musicPlayer = new MusicController("assets/battle-music.wav");
-        battleFacade = new BattleFacade(battleController,ui, musicPlayer);
+        battleEncounter = new MusicBattleDecorator(
+                new BattleFacade(battleController, ui),
+                musicPlayer
+        );
         battleMap = new BattleMap();
 //        ui.startingText();
         playerCharacter = new Player(ui.getString("Enter a name"));
@@ -64,7 +67,7 @@ public class StoryController {
     }
 
     public void startBattle(Enemy enemy) {
-        BattleOutcome outcome = battleFacade.fight(playerCharacter, enemy);
+        BattleOutcome outcome = battleEncounter.fight(playerCharacter, enemy);
 
         if (outcome == BattleOutcome.VICTORY) {
             battleIteration++;
